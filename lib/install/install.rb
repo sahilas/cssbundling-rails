@@ -41,7 +41,7 @@ unless Rails.root.join("package.json").exist?
 end
 
 if Rails.root.join("Procfile.dev").exist?
-  append_to_file "Procfile.dev", "css: yarn build:css --watch\n"
+  append_to_file "Procfile.dev", "css: pnpm build:css --watch\n"
 else
   say "Add default Procfile.dev"
   copy_file "#{__dir__}/Procfile.dev", "Procfile.dev"

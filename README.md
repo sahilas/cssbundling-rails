@@ -2,11 +2,11 @@
 
 Use [Tailwind CSS](https://tailwindcss.com), [Bootstrap](https://getbootstrap.com/), [Bulma](https://bulma.io/), [PostCSS](https://postcss.org), or [Dart Sass](https://sass-lang.com/) to bundle and process your CSS, then deliver it via the asset pipeline in Rails. This gem provides installers to get you going with the bundler of your choice in a new Rails application, and a convention to use `app/assets/builds` to hold your bundled output as artifacts that are not checked into source control (the installer adds this directory to `.gitignore` by default).
 
-You develop using this approach by running the bundler in watch mode in a terminal with `yarn build:css --watch` (and your Rails server in another, if you're not using something like [puma-dev](https://github.com/puma/puma-dev)). You can also use `./bin/dev`, which will start both the Rails server and the CSS build watcher (along with a JS build watcher, if you're also using `jsbundling-rails`).
+You develop using this approach by running the bundler in watch mode in a terminal with `pnpm build:css --watch` (and your Rails server in another, if you're not using something like [puma-dev](https://github.com/puma/puma-dev)). You can also use `./bin/dev`, which will start both the Rails server and the CSS build watcher (along with a JS build watcher, if you're also using `jsbundling-rails`).
 
 Whenever the bundler detects changes to any of the stylesheet files in your project, it'll bundle `app/assets/stylesheets/application.[bundler].css` into `app/assets/builds/application.css`. This build output takes over from the regular asset pipeline default file. So you continue to refer to the build output in your layout using the standard asset pipeline approach with `<%= stylesheet_link_tag "application" %>`.
 
-When you deploy your application to production, the `css:build` task attaches to the `assets:precompile` task to ensure that all your package dependencies from `package.json` have been installed via yarn, and then runs `yarn build:css` to process your stylesheet entrypoint, as it would in development. This output is then picked up by the asset pipeline, digested, and copied into public/assets, as any other asset pipeline file.
+When you deploy your application to production, the `css:build` task attaches to the `assets:precompile` task to ensure that all your package dependencies from `package.json` have been installed via pnpm, and then runs `pnpm build:css` to process your stylesheet entrypoint, as it would in development. This output is then picked up by the asset pipeline, digested, and copied into public/assets, as any other asset pipeline file.
 
 This also happens in testing where the bundler attaches to the `test:prepare` task to ensure the stylesheets have been bundled before testing commences. If your test framework does not call the `test:prepare` Rake task, ensure that your test framework runs `css:build` to bundle stylesheets before testing commences. If your setup uses [jsbundling-rails](https://github.com/rails/jsbundling-rails) (ie, esbuild + tailwind), you will also need to run `javascript:build`.
 
@@ -17,7 +17,7 @@ You can configure your bundler options in the `build:css` script in `package.jso
 
 ## Installation
 
-You must already have node and yarn installed on your system. You will also need npx version 7.1.0 or later. Then:
+You must already have node and pnpm installed on your system. You will also need npx version 7.1.0 or later. Then:
 
 1. Run `./bin/bundle add cssbundling-rails`
 2. Run `./bin/rails css:install:[tailwind|bootstrap|bulma|postcss|sass]`
